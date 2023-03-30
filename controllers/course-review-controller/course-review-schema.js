@@ -21,6 +21,10 @@ const reviewSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  yearTaken: {
+    type: Number,
+    required: true,
+  },
   verified: {
     type: Boolean,
     default: false,
@@ -47,6 +51,10 @@ const courseReviewsSchema = new mongoose.Schema({
   numOfReviews: {
     type: Number,
     default: 0,
+  },
+  professors: {
+    type: [String],
+    default: [],
   },
   reviews: [reviewSchema],
 });

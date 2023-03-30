@@ -3,14 +3,21 @@ import courseReviewModel from "./course-review-model.js";
 
 export const create = async (req, res, next) => {
   console.log(req.body);
-  const { courseNumber, averageRating, easiness, usefulness, numRatings } =
-    req.body;
+  const {
+    courseNumber,
+    averageRating,
+    easiness,
+    usefulness,
+    numRatings,
+    professors,
+  } = req.body;
   const course = new courseReviewModel({
     courseNumber,
     averageRating,
     easiness,
     usefulness,
     numRatings,
+    professors,
     reviews: [],
   });
   const createdCourse = await courseDao.create(course);
