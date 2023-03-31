@@ -35,6 +35,12 @@ const courseReviewsSchema = new mongoose.Schema({
   courseNumber: {
     type: String,
     required: true,
+    index: true,
+    unique: true,
+  },
+  courseName: {
+    type: String,
+    required: true,
   },
   averageRate: {
     type: Number,

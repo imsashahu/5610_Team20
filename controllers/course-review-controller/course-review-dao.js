@@ -2,7 +2,16 @@ import courseReviewModel from "./course-review-model.js";
 
 export const create = async (courseData) => {
   const course = new courseReviewModel(courseData);
-  return course.save();
+  return course
+    .save()
+    .then((savedCourse) => {
+      console.log(`Course ${savedCourse.courseNumber} saved to database`);
+      return savedCourse;
+    })
+    .catch((error) => {
+      console.log(`Error saving course: ${error}`);
+      return error.message;
+    });
 };
 
 export const getById = async (id) => {
