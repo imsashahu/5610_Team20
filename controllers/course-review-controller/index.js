@@ -41,7 +41,9 @@ export const getAll = async (req, res, next) => {
 
 export const addReview = async (req, res, next) => {
   try {
-    const course = await courseDao.addReview(req.params.id, req.body);
+    console.log("req.body", req.body);
+    console.log("req.params.courseNumber", req.params.courseNumber);
+    const course = await courseDao.addReview(req.params.courseNumber, req.body);
     res.json(course);
   } catch (err) {
     next(err);
@@ -52,5 +54,5 @@ export default (app) => {
   app.get("/courses", getAll);
   app.get("/courses/:courseNumber", getByCourseNumber);
   app.post("/courses", create);
-  app.post("/courses/:id/reviews", addReview);
+  app.post("/courses/:courseNumber/reviews", addReview);
 };

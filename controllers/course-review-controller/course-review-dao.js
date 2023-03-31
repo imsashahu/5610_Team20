@@ -26,8 +26,12 @@ export const getAll = async () => {
   return courseReviewModel.find();
 };
 
-export const addReview = async (courseId, reviewData) => {
-  const course = await courseReviewModel.findById(courseId);
+export const addReview = async (courseNumber, reviewData) => {
+  const course = await courseReviewModel.findOne({
+    courseNumber: courseNumber,
+  });
+  console.log("course", course);
+  console.log("reviewData", reviewData);
   course.reviews.push(reviewData);
   course.numOfReviews += 1;
   course.averageRate =
