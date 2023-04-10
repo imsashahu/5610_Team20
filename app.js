@@ -15,7 +15,7 @@ const CONNECTION_STRING = `${process.env.CONNECTION_STRING}`;
 mongoose.connect(CONNECTION_STRING);
 
 import courseReviewController from "./controllers/course-review-controller/index.js";
-
+import UsersController from "./controllers/users/users-controller.js"
 app.get("/hello", (req, res) => {
   res.send("Life is good!");
 });
@@ -25,5 +25,6 @@ app.get("/", (req, res) => {
 });
 
 courseReviewController(app);
+UsersController(app);
 
 app.listen(4001);
