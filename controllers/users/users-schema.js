@@ -9,7 +9,7 @@ const usersSchema = new mongoose.Schema(
       bio: String,
       dataOfBirth: String,
       major: String,
-      email: { type: String, unique: true },
+      email: { type: String},
       role: { type: String, default: "STUDENT", enum: ["STUDENT", "ADMIN", "FACULTY"] },
     },
     {
