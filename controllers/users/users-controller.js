@@ -10,6 +10,7 @@ function UsersController(app) {
   };
   const findUserById = async (req, res) => {
     const id = req.params.id;
+    console.log(id);
     // const user = users.find((user) => user.id === id);
     const user = await usersDao.findUserById(id);
     res.send(user);
@@ -44,8 +45,8 @@ function UsersController(app) {
     //     user.password === req.body.password
     // );
     const foundUser = await usersDao.findUserByCredentials(
-        req.body.username,
-        req.body.password
+      req.body.username,
+      req.body.password
     );
     if (foundUser) {
       currentUser = foundUser;
@@ -81,9 +82,10 @@ function UsersController(app) {
   };
 
   app.post("/api/users/login", login);
+  app.get("/api/users/id/:id", findUserById);
   app.post("/api/users/logout", logout);
   app.get("/api/users/profile", profile);
-  app.get("/api/users/current", profile)
+  app.get("/api/users/current", profile);
   app.post("/api/users/register", register);
 
   app.get("/api/users", findAllUsers);
