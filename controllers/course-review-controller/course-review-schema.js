@@ -29,6 +29,30 @@ const reviewSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  upvotes: {
+    type: Number,
+    default: 0,
+  },
+  downvotes: {
+    type: Number,
+    default: 0,
+  },
+  upvoters: {
+    type: [String],
+    default: [],
+  },
+  downvoters: {
+    type: [String],
+    default: [],
+  },
+  postedBy: {
+    type: String,
+    required: true,
+  },
+  datePosted: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const courseReviewsSchema = new mongoose.Schema({
