@@ -84,8 +84,8 @@ const deleteReviewByIdForCourse = async (req, res, next) => {
 
 export default (app) => {
   app.get("/courses", getAll);
-  app.get("/courses/:courseNumber", getByCourseNumber);
   app.post("/courses", create);
+  app.get("/courses/:courseNumber", getByCourseNumber);
   app.post("/courses/:courseNumber/reviews", addReview);
   app.put("/courses/:courseNumber/reviews/:reviewId", updateReviewForCourse);
   app.delete(
