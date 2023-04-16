@@ -50,9 +50,39 @@ export const addReview = async (req, res, next) => {
   }
 };
 
+export const updateReviewForCourse = async (req, res, next) => {
+  try {
+    const course = await courseDao.updateReviewForCourse(
+      req.params.courseNumber,
+      req.params.reviewId,
+      req.body
+    );
+    res.json(course);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const deleteReviewByIdForCourse = async (req, res, next) => {
+  try {
+    const course = await courseDao.deleteReviewByIdForCourse(
+      req.params.courseNumber,
+      req.params.reviewId
+    );
+    res.json(course);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export default (app) => {
   app.get("/courses", getAll);
   app.get("/courses/:courseNumber", getByCourseNumber);
   app.post("/courses", create);
   app.post("/courses/:courseNumber/reviews", addReview);
+  app.put("/courses/:courseNumber/reviews/:reviewId", updateReviewForCourse);
+  app.delete(
+    "/courses/:courseNumber/reviews/:reviewId",
+    deleteReviewByIdForCourse
+  );
 };
