@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 export const reviewSchema = new mongoose.Schema(
   {
+    courseNumber: {
+      type: Number,
+      required: true,
+    },
     professor: {
       type: String,
       required: true,
