@@ -14,6 +14,23 @@ export const create = async (courseData) => {
     });
 };
 
+export const update = async (id, update) => {
+  try {
+    const course = new courseReviewModel(courseData);
+    const updatedCourse = await courseReviewModel.findByIdAndUpdate(
+      id,
+      update,
+      {
+        new: true,
+      }
+    );
+    if (!updatedCourse) throw new Error(`Course ${id} not found.`);
+    return course;
+  } catch (error) {
+    throw new Error(`Could not update course ${id}: ${error.message}`);
+  }
+};
+
 export const getById = async (id) => {
   return courseReviewModel.findById(id);
 };

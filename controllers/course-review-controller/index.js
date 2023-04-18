@@ -22,6 +22,15 @@ export const getById = async (req, res, next) => {
   }
 };
 
+export const update = async (req, res, next) => {
+  try {
+    const course = await courseDao.update(req.params.id, req.body);
+    res.json(course);
+  } catch (err) {
+    next(err);
+  }
+};
+
 // Get a course's info and reviews by courseNumber.
 export const getByCourseNumber = async (req, res, next) => {
   try {
@@ -83,8 +92,10 @@ const deleteReviewByIdForCourse = async (req, res, next) => {
 };
 
 export default (app) => {
+  // courses
   app.get("/courses", getAll);
   app.post("/courses", create);
+  // reviews of a course
   app.get("/courses/:courseNumber", getByCourseNumber);
   app.post("/courses/:courseNumber/reviews", addReview);
   app.put("/courses/:courseNumber/reviews/:reviewId", updateReviewForCourse);
