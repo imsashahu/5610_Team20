@@ -1,5 +1,5 @@
 import * as courseDao from "./course-review-dao.js";
-import courseReviewModel from "./course-review-model.js";
+import courseReviewModel, { reviewModel } from "./course-review-model.js";
 
 // Create a new course.
 export const create = async (req, res, next) => {
@@ -16,6 +16,15 @@ export const create = async (req, res, next) => {
 export const getById = async (req, res, next) => {
   try {
     const course = await courseDao.getById(req.params.id);
+    res.json(course);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const update = async (req, res, next) => {
+  try {
+    const course = await courseDao.update(req.params.id, req.body);
     res.json(course);
   } catch (err) {
     next(err);
@@ -82,9 +91,28 @@ const deleteReviewByIdForCourse = async (req, res, next) => {
   }
 };
 
+const getAllReviewsByUserId = async (req, res, next) => {
+  try {
+    const courses = await courseDao.getAll();
+    const reviews = [];
+    courses.forEach((course) => {
+      course.reviews.forEach((review) => {
+        if (review.postedBy === req.params.userId) {
+          reviews.push(review);
+        }
+      });
+    });
+    res.json(reviews);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export default (app) => {
+  // courses
   app.get("/courses", getAll);
   app.post("/courses", create);
+  // reviews of a course
   app.get("/courses/:courseNumber", getByCourseNumber);
   app.post("/courses/:courseNumber/reviews", addReview);
   app.put("/courses/:courseNumber/reviews/:reviewId", updateReviewForCourse);
@@ -92,4 +120,5 @@ export default (app) => {
     "/courses/:courseNumber/reviews/:reviewId",
     deleteReviewByIdForCourse
   );
+  app.get("/reviews/:userId", getAllReviewsByUserId);
 };

@@ -1,4 +1,4 @@
-import courseReviewModel from "./course-review-model.js";
+import courseReviewModel, { reviewModel } from "./course-review-model.js";
 
 export const create = async (courseData) => {
   const course = new courseReviewModel(courseData);
@@ -12,6 +12,23 @@ export const create = async (courseData) => {
       console.log(`Error saving course: ${error}`);
       return error.message;
     });
+};
+
+export const update = async (id, update) => {
+  try {
+    const course = new courseReviewModel(courseData);
+    const updatedCourse = await courseReviewModel.findByIdAndUpdate(
+      id,
+      update,
+      {
+        new: true,
+      }
+    );
+    if (!updatedCourse) throw new Error(`Course ${id} not found.`);
+    return course;
+  } catch (error) {
+    throw new Error(`Could not update course ${id}: ${error.message}`);
+  }
 };
 
 export const getById = async (id) => {
@@ -90,4 +107,18 @@ export const deleteReviewByIdForCourse = async (courseNumber, reviewId) => {
       `Could not delete review ${reviewId} for course ${courseNumber}: ${error.message}`
     );
   }
+};
+
+export const getAllReviewsByUserId = async (userId) => {
+  courseReviewModel.aggregate(
+    [{ $unwind: "$reviews" }, { $match: { "reviews.postedBy": userId } }],
+    (err, reviews) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log(reviews);
+      }
+    }
+  );
+  return courseReviewModel.find({ "reviews.user": userId });
 };
