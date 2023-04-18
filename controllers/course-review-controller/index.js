@@ -1,5 +1,5 @@
 import * as courseDao from "./course-review-dao.js";
-import courseReviewModel from "./course-review-model.js";
+import courseReviewModel, { reviewModel } from "./course-review-model.js";
 
 // Create a new course.
 export const create = async (req, res, next) => {
@@ -91,6 +91,23 @@ const deleteReviewByIdForCourse = async (req, res, next) => {
   }
 };
 
+const getAllReviewsByUserId = async (req, res, next) => {
+  try {
+    const courses = await courseDao.getAll();
+    const reviews = [];
+    courses.forEach((course) => {
+      course.reviews.forEach((review) => {
+        if (review.postedBy === req.params.userId) {
+          reviews.push(review);
+        }
+      });
+    });
+    res.json(reviews);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export default (app) => {
   // courses
   app.get("/courses", getAll);
@@ -103,4 +120,5 @@ export default (app) => {
     "/courses/:courseNumber/reviews/:reviewId",
     deleteReviewByIdForCourse
   );
+  app.get("/reviews/:userId", getAllReviewsByUserId);
 };

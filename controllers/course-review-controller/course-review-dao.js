@@ -1,4 +1,4 @@
-import courseReviewModel from "./course-review-model.js";
+import courseReviewModel, { reviewModel } from "./course-review-model.js";
 
 export const create = async (courseData) => {
   const course = new courseReviewModel(courseData);
@@ -107,4 +107,18 @@ export const deleteReviewByIdForCourse = async (courseNumber, reviewId) => {
       `Could not delete review ${reviewId} for course ${courseNumber}: ${error.message}`
     );
   }
+};
+
+export const getAllReviewsByUserId = async (userId) => {
+  courseReviewModel.aggregate(
+    [{ $unwind: "$reviews" }, { $match: { "reviews.postedBy": userId } }],
+    (err, reviews) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log(reviews);
+      }
+    }
+  );
+  return courseReviewModel.find({ "reviews.user": userId });
 };
