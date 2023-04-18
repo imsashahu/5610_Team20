@@ -2,7 +2,7 @@ import * as courseDao from "./course-review-dao.js";
 import courseReviewModel, { reviewModel } from "./course-review-model.js";
 
 // Create a new course.
-export const create = async (req, res, next) => {
+export const createCourse = async (req, res, next) => {
   console.log(req.body);
   const course = new courseReviewModel({
     ...req.body,
@@ -22,9 +22,13 @@ export const getById = async (req, res, next) => {
   }
 };
 
-export const update = async (req, res, next) => {
+// Update a course's info by courseNumber.
+export const updateCourseByCourseNumber = async (req, res, next) => {
   try {
-    const course = await courseDao.update(req.params.id, req.body);
+    const course = await courseDao.updateCourseByCourseNumber(
+      req.params.courseNumber,
+      req.body
+    );
     res.json(course);
   } catch (err) {
     next(err);
@@ -43,7 +47,7 @@ export const getByCourseNumber = async (req, res, next) => {
 };
 
 // Get all courses' info and reviews.
-export const getAll = async (req, res, next) => {
+export const getAllCourses = async (req, res, next) => {
   try {
     const courses = await courseDao.getAll();
     res.json(courses);
@@ -91,6 +95,7 @@ const deleteReviewByIdForCourse = async (req, res, next) => {
   }
 };
 
+// Get all reviews posted by user whose _id is userId.
 const getAllReviewsByUserId = async (req, res, next) => {
   try {
     const courses = await courseDao.getAll();
@@ -110,8 +115,9 @@ const getAllReviewsByUserId = async (req, res, next) => {
 
 export default (app) => {
   // courses
-  app.get("/courses", getAll);
-  app.post("/courses", create);
+  app.get("/courses", getAllCourses);
+  app.post("/courses", createCourse);
+  app.put("/courses/:courseNumber", updateCourseByCourseNumber);
   // reviews of a course
   app.get("/courses/:courseNumber", getByCourseNumber);
   app.post("/courses/:courseNumber/reviews", addReview);

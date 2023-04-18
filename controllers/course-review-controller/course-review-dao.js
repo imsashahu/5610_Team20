@@ -14,20 +14,20 @@ export const create = async (courseData) => {
     });
 };
 
-export const update = async (id, update) => {
+export const updateCourseByCourseNumber = async (courseNumber, update) => {
   try {
-    const course = new courseReviewModel(courseData);
-    const updatedCourse = await courseReviewModel.findByIdAndUpdate(
-      id,
+    const course = courseReviewModel.find({ courseNumber: courseNumber });
+    const updatedCourse = await courseReviewModel.findOneAndUpdate(
+      { courseNumber },
       update,
-      {
-        new: true,
-      }
+      { upsert: false }
     );
-    if (!updatedCourse) throw new Error(`Course ${id} not found.`);
+    if (!updatedCourse) throw new Error(`Course ${courseNumber} not found.`);
     return course;
   } catch (error) {
-    throw new Error(`Could not update course ${id}: ${error.message}`);
+    throw new Error(
+      `Could not update course ${courseNumber}: ${error.message}`
+    );
   }
 };
 
