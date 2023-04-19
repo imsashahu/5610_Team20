@@ -100,6 +100,10 @@ const courseSchema = new mongoose.Schema(
       type: String,
       default: "No description yet.",
     },
+    bannerImage: {
+      type: String,
+      default: "polyglot.png",
+    },
     professors: {
       type: [String],
       default: [],
