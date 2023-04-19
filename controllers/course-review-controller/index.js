@@ -7,8 +7,9 @@ export const createCourse = async (req, res, next) => {
   const course = new courseReviewModel({
     ...req.body,
     reviews: [],
+    youtubeVideoIds: [],
   });
-  const createdCourse = await courseDao.create(course);
+  const createdCourse = await courseDao.createCourse(course);
   res.status(201).json(createdCourse);
 };
 
