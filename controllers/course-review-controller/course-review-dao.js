@@ -1,6 +1,6 @@
 import courseReviewModel, { reviewModel } from "./course-review-model.js";
 
-export const create = async (courseData) => {
+export const createCourse = async (courseData) => {
   const course = new courseReviewModel(courseData);
   return course
     .save()

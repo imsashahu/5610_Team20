@@ -68,7 +68,6 @@ const courseSchema = new mongoose.Schema(
   {
     courseNumber: {
       type: String,
-      required: true,
       index: true,
       unique: true,
     },
@@ -117,6 +116,10 @@ const courseSchema = new mongoose.Schema(
       default: [],
     },
     reviews: [reviewSchema],
+    youtubeVideoIds: {
+      type: [String],
+      default: [],
+    },
   },
   { collection: "courses" }
 );
