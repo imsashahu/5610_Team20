@@ -56,14 +56,9 @@ export const addReview = async (courseNumber, reviewData) => {
   const course = await courseReviewModel.findOne({
     courseNumber: courseNumber,
   });
-  console.log("course", course);
-  console.log("reviewData", reviewData);
   course.reviews.push(reviewData);
-  console.log("reviews", course.reviews);
-  course.numOfReviews += 1;
-  console.log("before", course.averageRate);
+  course.numOfReviews = course.reviews.length;
   course.averageRate = calculateAverage(course.reviews, "rate");
-  console.log("after", course.averageRate);
   course.easiness = calculateAverage(course.reviews, "easiness");
   course.usefulness = calculateAverage(course.reviews, "usefulness");
   await course.save();
