@@ -91,7 +91,27 @@ const courseSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    creditHour: {
+      type: Number,
+      default: 0,
+    },
+    description: {
+      type: String,
+      default: "No description yet.",
+    },
+    bannerImage: {
+      type: String,
+      default: "polyglot.png",
+    },
     professors: {
+      type: [String],
+      default: [],
+    },
+    locations: {
+      type: [String],
+      default: [],
+    },
+    instructionalMethods: {
       type: [String],
       default: [],
     },
