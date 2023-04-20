@@ -3,14 +3,28 @@ import express from "express";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import cors from "cors";
+import session from "express-session"
+
 
 dotenv.config();
 
 const app = express();
+app.use(
+    session({
+      secret: "any string",
+      resave: false,
+      cookie: {secure:false},
+      saveUninitialized: true,
+    })
+);
 
 app.use(bodyParser.json());
-app.use(cors());
-
+app.use(cors({
+      credentials: true,
+      origin: "http://localhost:3000",
+    })
+);
+app.use(express.json());
 const CONNECTION_STRING = `${process.env.CONNECTION_STRING}`;
 mongoose.connect(CONNECTION_STRING);
 
@@ -32,5 +46,5 @@ app.get("/poi/:oiu", (iuy, cxz) => {
 
 courseReviewController(app);
 UsersController(app);
-
-app.listen(4001);
+const port = process.env.PORT || 4001;
+app.listen(port);
