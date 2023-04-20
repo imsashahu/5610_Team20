@@ -9,13 +9,18 @@ dotenv.config();
 const app = express();
 
 app.use(bodyParser.json());
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:3000",
+  })
+);
 
 const CONNECTION_STRING = `${process.env.CONNECTION_STRING}`;
 mongoose.connect(CONNECTION_STRING);
 
 import courseReviewController from "./controllers/course-review-controller/index.js";
-import UsersController from "./controllers/users/users-controller.js"
+import UsersController from "./controllers/users/users-controller.js";
 app.get("/hello", (req, res) => {
   res.send("Life is good!");
 });
