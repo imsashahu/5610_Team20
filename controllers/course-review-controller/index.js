@@ -132,6 +132,18 @@ const getAllCourseNumbers = async (req, res, next) => {
   }
 };
 
+const getAllCoursesSortedByRate = async (req, res, next) => {
+  try {
+    const courses = await courseDao.getAll();
+    const coursesSortedByRate = courses.sort((a, b) => {
+      return b.rate - a.rate;
+    });
+    res.json(coursesSortedByRate);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export default (app) => {
   // courses
   app.get("/courses", getAllCourses);
@@ -147,4 +159,5 @@ export default (app) => {
   );
   app.get("/reviews/:userId", getAllReviewsByUserId);
   app.get("/all-course-numbers", getAllCourseNumbers);
+  app.get("/courses/sorted/rate", getAllCoursesSortedByRate);
 };
