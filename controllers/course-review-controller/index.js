@@ -7,8 +7,9 @@ export const createCourse = async (req, res, next) => {
   const course = new courseReviewModel({
     ...req.body,
     reviews: [],
+    youtubeVideoIds: [],
   });
-  const createdCourse = await courseDao.create(course);
+  const createdCourse = await courseDao.createCourse(course);
   res.status(201).json(createdCourse);
 };
 
@@ -113,6 +114,24 @@ const getAllReviewsByUserId = async (req, res, next) => {
   }
 };
 
+// Get all course numbers.
+const getAllCourseNumbers = async (req, res, next) => {
+  try {
+    const courses = await courseDao.getAll();
+    console.log("[getAllCourseNumbers] coursees", courses);
+    const courseNumbers = [];
+    courses.forEach((course) => {
+      courseNumbers.push(course.courseNumber);
+    });
+    res.json(courseNumbers);
+
+    // const courseNumbers = await courseDao.getAllCourseNumbers();
+    // res.json(courseNumbers);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export default (app) => {
   // courses
   app.get("/courses", getAllCourses);
@@ -127,4 +146,5 @@ export default (app) => {
     deleteReviewByIdForCourse
   );
   app.get("/reviews/:userId", getAllReviewsByUserId);
+  app.get("/all-course-numbers", getAllCourseNumbers);
 };

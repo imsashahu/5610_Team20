@@ -1,6 +1,6 @@
 import courseReviewModel, { reviewModel } from "./course-review-model.js";
 
-export const create = async (courseData) => {
+export const createCourse = async (courseData) => {
   const course = new courseReviewModel(courseData);
   return course
     .save()
@@ -43,23 +43,24 @@ export const getAll = async () => {
   return courseReviewModel.find();
 };
 
+const calculateAverage = (data, property) => {
+  const total = data.reduce(
+    (accumulator, currentValue) => accumulator + currentValue[property],
+    0
+  );
+  const average = total / data.length;
+  return average;
+};
+
 export const addReview = async (courseNumber, reviewData) => {
   const course = await courseReviewModel.findOne({
     courseNumber: courseNumber,
   });
-  console.log("course", course);
-  console.log("reviewData", reviewData);
   course.reviews.push(reviewData);
-  course.numOfReviews += 1;
-  course.averageRate =
-    (course.averageRate * (course.numOfReviews - 1) + reviewData.rate) /
-    course.numOfReviews;
-  course.easiness =
-    (course.easiness * (course.numOfReviews - 1) + reviewData.easiness) /
-    course.numOfReviews;
-  course.usefulness =
-    (course.usefulness * (course.numOfReviews - 1) + reviewData.usefulness) /
-    course.numOfReviews;
+  course.numOfReviews = course.reviews.length;
+  course.averageRate = calculateAverage(course.reviews, "rate");
+  course.easiness = calculateAverage(course.reviews, "easiness");
+  course.usefulness = calculateAverage(course.reviews, "usefulness");
   await course.save();
   return course;
 };
