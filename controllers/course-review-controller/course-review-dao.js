@@ -43,6 +43,15 @@ export const getAll = async () => {
   return courseReviewModel.find();
 };
 
+const calculateAverage = (data, property) => {
+  const total = data.reduce(
+    (accumulator, currentValue) => accumulator + currentValue[property],
+    0
+  );
+  const average = total / data.length;
+  return average;
+};
+
 export const addReview = async (courseNumber, reviewData) => {
   const course = await courseReviewModel.findOne({
     courseNumber: courseNumber,
@@ -50,16 +59,13 @@ export const addReview = async (courseNumber, reviewData) => {
   console.log("course", course);
   console.log("reviewData", reviewData);
   course.reviews.push(reviewData);
+  console.log("reviews", course.reviews);
   course.numOfReviews += 1;
-  course.averageRate =
-    (course.averageRate * (course.numOfReviews - 1) + reviewData.rate) /
-    course.numOfReviews;
-  course.easiness =
-    (course.easiness * (course.numOfReviews - 1) + reviewData.easiness) /
-    course.numOfReviews;
-  course.usefulness =
-    (course.usefulness * (course.numOfReviews - 1) + reviewData.usefulness) /
-    course.numOfReviews;
+  console.log("before", course.averageRate);
+  course.averageRate = calculateAverage(course.reviews, "rate");
+  console.log("after", course.averageRate);
+  course.easiness = calculateAverage(course.reviews, "easiness");
+  course.usefulness = calculateAverage(course.reviews, "usefulness");
   await course.save();
   return course;
 };
