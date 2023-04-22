@@ -15,6 +15,7 @@ export const createCourse = async (courseData) => {
 };
 
 export const updateCourseByCourseNumber = async (courseNumber, update) => {
+  console.log("[updateCourseByCourseNumber]");
   try {
     const course = courseReviewModel.find({ courseNumber: courseNumber });
     const updatedCourse = await courseReviewModel.findOneAndUpdate(
