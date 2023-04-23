@@ -18,7 +18,12 @@ app.use(
 );
 
 app.use(bodyParser.json());
-app.use(cors());
+app.use(
+  cors({
+    origin:
+      "https://6444ff4adbe6db000843f3ab--startling-marigold-eab23a.netlify.app/",
+  })
+);
 
 const CONNECTION_STRING = `${process.env.CONNECTION_STRING}`;
 mongoose.connect(CONNECTION_STRING);
