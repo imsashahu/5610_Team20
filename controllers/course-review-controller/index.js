@@ -137,7 +137,7 @@ const getAllCoursesSortedByRate = async (req, res, next) => {
   try {
     const courses = await courseDao.getAll();
     const coursesSortedByRate = courses.sort((a, b) => {
-      return b.rate - a.rate;
+      return b.averageRate - a.averageRate;
     });
     res.json(coursesSortedByRate);
   } catch (err) {
