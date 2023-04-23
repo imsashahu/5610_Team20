@@ -25,6 +25,7 @@ export const getById = async (req, res, next) => {
 
 // Update a course's info by courseNumber.
 export const updateCourseByCourseNumber = async (req, res, next) => {
+  console.log("[updateCourseByCourseNumber]");
   try {
     const course = await courseDao.updateCourseByCourseNumber(
       req.params.courseNumber,

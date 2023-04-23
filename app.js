@@ -21,10 +21,13 @@ app.use(bodyParser.json());
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:3000",
+    origin: [
+      "http://localhost:3000",
+      "https://startling-marigold-eab23a.netlify.app/",
+    ],
   })
 );
-app.use(express.json());
+
 const CONNECTION_STRING = `${process.env.CONNECTION_STRING}`;
 mongoose.connect(CONNECTION_STRING);
 
@@ -36,12 +39,6 @@ app.get("/hello", (req, res) => {
 app.get("/", (req, res) => {
   console.log(req.body);
   res.send("Welcome to Full Stack Development!");
-});
-
-app.get("/poi/:oiu", (iuy, cxz) => {
-  const vcx = iuy.params.oiu;
-  const tre = "Hello " + vcx;
-  cxz.json(tre);
 });
 
 courseReviewController(app);
