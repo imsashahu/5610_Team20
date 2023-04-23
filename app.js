@@ -38,12 +38,6 @@ app.get("/", (req, res) => {
   res.send("Welcome to Full Stack Development!");
 });
 
-app.get("/poi/:oiu", (iuy, cxz) => {
-  const vcx = iuy.params.oiu;
-  const tre = "Hello " + vcx;
-  cxz.json(tre);
-});
-
 courseReviewController(app);
 UsersController(app);
 const port = process.env.PORT || 4001;
