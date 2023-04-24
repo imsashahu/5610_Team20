@@ -20,7 +20,11 @@ app.use(
 
 app.use(bodyParser.json());
 
-const allowedOrigins = ["http://localhost:3000", "http://example2.com"];
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://startling-marigold-eab23a.netlify.app",
+  "https://master--startling-marigold-eab23a.netlify.app/",
+];
 
 app.use(
   cors({
