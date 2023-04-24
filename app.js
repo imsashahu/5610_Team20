@@ -23,7 +23,8 @@ app.use(bodyParser.json());
 const allowedOrigins = [
   "http://localhost:3000",
   "https://startling-marigold-eab23a.netlify.app",
-  "https://master--startling-marigold-eab23a.netlify.app/",
+  "https://master--startling-marigold-eab23a.netlify.app",
+  "https://master--jocular-malasada-daa747.netlify.app/",
 ];
 
 app.use(
