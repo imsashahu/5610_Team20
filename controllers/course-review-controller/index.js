@@ -1,5 +1,7 @@
 import * as courseDao from "./course-review-dao.js";
 import courseReviewModel, { reviewModel } from "./course-review-model.js";
+import corsOptionDelegate from "../../cors.js";
+import cors from "cors";
 
 // Create a new course.
 export const createCourse = async (req, res, next) => {
@@ -147,8 +149,8 @@ const getAllCoursesSortedByRate = async (req, res, next) => {
 
 export default (app) => {
   // courses
-  app.get("/courses", getAllCourses);
-  app.post("/courses", createCourse);
+  app.get("/courses", cors(corsOptionDelegate), getAllCourses);
+  app.post("/courses", cors(corsOptionDelegate), createCourse);
   app.put("/courses/:courseNumber", updateCourseByCourseNumber);
   // reviews of a course
   app.get("/courses/:courseNumber", getByCourseNumber);
