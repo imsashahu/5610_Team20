@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import cors from "cors";
 import session from "express-session";
+import corsOptionsDelegate from "./cors.js";
 
 dotenv.config();
 
@@ -18,10 +19,13 @@ app.use(
 );
 
 app.use(bodyParser.json());
+
+const allowedOrigins = ["http://localhost:3000", "http://example2.com"];
+
 app.use(
   cors({
-    origin:
-      "https://6444ff4adbe6db000843f3ab--startling-marigold-eab23a.netlify.app/",
+    origin: allowedOrigins,
+    credentials: true,
   })
 );
 
@@ -30,10 +34,10 @@ mongoose.connect(CONNECTION_STRING);
 
 import courseReviewController from "./controllers/course-review-controller/index.js";
 import UsersController from "./controllers/users/users-controller.js";
-app.get("/hello", (req, res) => {
+app.get("/hello", cors(corsOptionsDelegate), (req, res) => {
   res.send("Life is good!");
 });
-app.get("/", (req, res) => {
+app.get("/", cors(corsOptionsDelegate), (req, res) => {
   console.log(req.body);
   res.send("Welcome to Full Stack Development!");
 });
